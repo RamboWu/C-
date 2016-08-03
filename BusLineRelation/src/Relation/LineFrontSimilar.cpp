@@ -1,6 +1,9 @@
 #include "LineFrontSimilar.h"
 #include "../Bus/BusLineManager.h"
 
+
+const int LineFrontSimilar::LINE_FRONT_LENGTH = 1000;
+
 void LineFrontSimilar::CalcSimilar(BusLineManager* busline_manager) {
 
 	Calc(busline_manager);
@@ -26,7 +29,7 @@ void LineFrontSimilar::Calc(BusLineManager* busline_manager) {
 
 				double length = line->routes[k][j].GPSDistance(line->routes[k][j + 1]);
 				now_front_total_length += length;
-				if (now_front_total_length > 500)
+				if (now_front_total_length > LINE_FRONT_LENGTH)
 					break;
 
 				Segment segment = Segment(line->routes[k][j], line->routes[k][j + 1]);
@@ -62,65 +65,22 @@ void LineFrontSimilar::Calc(BusLineManager* busline_manager) {
 				if (line_serial == line->serial) continue;
 				int size = iter->second.size();
 
-				SimilarMeta similar_meta;
-				similar_meta.first = line->serial * 2 + k;
-				similar_meta.second = iter->first;
-
-				similar_rate[similar_meta] = (double)size / line_front_points.size();
-
-				if (size >= line_front_points.size() * 0.98) {
-					if (temp_similar[k].find(line_serial) == temp_similar[k].end()) {
-						temp_similar[k][line_serial] = 0;
+				if (size >= line_front_points.size() * 0.80) {
+					//取这一条可能的线的 头部的空间索引
+					set<GPSPoint, GPSPointCompare> target_line_front_point = getLineFrontPointsInIndex(busline_manager, iter->first);
+					int inter_count = getIntersectionCount(line_front_points, target_line_front_point);
+					
+					if (inter_count >= line_front_points.size()*0.95) {
+						if (similar.find(line->serial) == similar.end()) {
+							similar[line->serial] = std::set<int>();
+						}
+						similar[line->serial].insert(line_serial);
 					}
-					temp_similar[k][line_serial] += 1 << dir;
+					
 				}
 			}
 		}
 		
-		if (line->dir_num == 1) {
-			std::vector<int> temp;
-			for (auto iter = temp_similar[0].begin(); iter != temp_similar[0].end(); iter++) {
-
-				BusLine* temp_line = busline_manager->GetLine(iter->first);
-				if (iter->second == 1) {
-					temp.push_back(temp_line->serial);
-				}
-
-			}
-			if (temp.size() > 0) {
-				if (similar.find(line->serial) == similar.end()) {
-					std::set<int> t;
-					similar[line->serial] = t;
-				}
-				for (int t = 0; t < temp.size(); t++) {
-					similar[line->serial].insert(temp[t]);
-				}
-			}
-
-		}
-		else {
-
-			std::vector<int> temp;
-			for (auto iter = temp_similar[0].begin(); iter != temp_similar[0].end(); iter++) {
-
-				BusLine* temp_line = busline_manager->GetLine(iter->first);
-				if (temp_similar[1].find(iter->first) != temp_similar[1].end()) {
-					int value = temp_similar[1][iter->first];
-					if ((iter->second | value == 3) && (iter->second ^ value == 3) && iter->second>0 && value > 0) {
-						temp.push_back(temp_line->serial);
-					}
-				}
-			}
-			if (temp.size() > 0) {
-				if (similar.find(line->serial) == similar.end()) {
-					std::set<int> t;
-					similar[line->serial] = t;
-				}
-				for (int t = 0; t < temp.size(); t++) {
-					similar[line->serial].insert(temp[t]);
-				}
-			}
-		}
 	}
 
 }
@@ -143,4 +103,45 @@ void LineFrontSimilar::Report(BusLineManager* busline_manager) {
 		fprintf(temp_out, "\n");
 	}
 	fclose(temp_out);
+}
+
+set<GPSPoint, GPSPointCompare> LineFrontSimilar::getLineFrontPointsInIndex(BusLineManager* busline_manager, int dir_serial) {
+	int dir = dir_serial % 2;
+	int serial = dir_serial >> 1;
+
+	BusLine* line = busline_manager->GetLine(serial);
+
+	set<GPSPoint, GPSPointCompare> line_front_points;
+	double now_front_total_length = 0;
+	//求得与当前dir_serial有相交的所有line
+	for (int j = 0; j < (int)line->routes[dir].size() - 1; j++) {
+
+		double length = line->routes[dir][j].GPSDistance(line->routes[dir][j + 1]);
+		now_front_total_length += length;
+		if (now_front_total_length > LINE_FRONT_LENGTH)
+			break;
+
+		Segment segment = Segment(line->routes[dir][j], line->routes[dir][j + 1]);
+		std::list<std::pair<GPSPoint*, BusLineUnit*>*>* unit_list = busline_manager->line_index->GetSegment(segment, 1);
+
+		for (auto iter = unit_list->begin(); iter != unit_list->end(); iter++) {
+			GPSPoint* point = (*iter)->first;
+			line_front_points.insert(*(point));
+		}
+
+		delete unit_list;
+
+	}
+
+	return line_front_points;
+}
+
+int LineFrontSimilar::getIntersectionCount(set<GPSPoint, GPSPointCompare>& a, set<GPSPoint, GPSPointCompare>& b) {
+	int count = 0;
+	for (auto iter = a.begin(); iter != a.end(); iter++) {
+		if (b.find(*iter) != b.end()) {
+			count += 1;
+		}
+	}
+	return count;
 }
