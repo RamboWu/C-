@@ -33,6 +33,7 @@ public:
 
 	static std::string line_similar_report;
 	static std::string line_parent_report;
+	static std::string line_front_similar_report;
 	static std::string InvertingStationReport;
 	static std::string FarAwayStationReport;
 	static std::string FormatErrorReport;
@@ -60,6 +61,7 @@ std::string Configuration::multi_relation_file_name = "multi.csv";
 std::string Configuration::suspicious_relation_file_name = "suspicious.csv";
 std::string Configuration::line_similar_report = "LineSimilar.csv";
 std::string Configuration::line_parent_report = "LineParent.csv";
+std::string Configuration::line_front_similar_report = "LineFrontSimilar.csv";
 std::string Configuration::InvertingStationReport = "InvertingStation.csv";
 std::string Configuration::FarAwayStationReport = "FarAwayStation.csv";
 std::string Configuration::FormatErrorReport = "FormatError.csv";
@@ -114,6 +116,7 @@ void Configuration::Init(int num, char* args[]) {
 	Configuration::temp_bus_file = Configuration::output_dir + Configuration::temp_bus_file;
 	Configuration::line_similar_report = Configuration::output_dir + Configuration::line_similar_report;
 	Configuration::line_parent_report = Configuration::output_dir + Configuration::line_parent_report;
+	Configuration::line_front_similar_report = Configuration::output_dir + Configuration::line_front_similar_report;
 	Configuration::InvertingStationReport = Configuration::output_dir + Configuration::InvertingStationReport;
 	Configuration::FormatErrorReport = Configuration::output_dir + Configuration::FormatErrorReport;
 	Configuration::FarAwayStationReport = Configuration::output_dir + Configuration::FarAwayStationReport;
