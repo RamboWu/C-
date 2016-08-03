@@ -37,6 +37,12 @@
     <Filter Include="源文件\Relation">
       <UniqueIdentifier>{676a38f5-2378-4b7e-914c-7e5340cb2113}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\Bus">
+      <UniqueIdentifier>{5aea5e5d-3a92-4920-a19e-9987b43351e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Util">
+      <UniqueIdentifier>{f26149a7-cbea-494e-b37a-b01541ca82d3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Bus\Bus.h">
@@ -115,6 +121,15 @@
     </ClCompile>
     <ClCompile Include="..\src\Relation\LineFrontSimilar.cpp">
       <Filter>源文件\Relation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Bus\Bus.cpp">
+      <Filter>源文件\Bus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Util\Configuration.cpp">
+      <Filter>源文件\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Util\DateTime.cpp">
+      <Filter>源文件\Util</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

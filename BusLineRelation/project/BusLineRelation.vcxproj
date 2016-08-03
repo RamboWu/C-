@@ -110,9 +110,12 @@
     <ClInclude Include="..\src\Util\StringUtils.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\Bus\Bus.cpp" />
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\MiniDump\DumpGeneration.cpp" />
     <ClCompile Include="..\src\Relation\LineFrontSimilar.cpp" />
+    <ClCompile Include="..\src\Util\Configuration.cpp" />
+    <ClCompile Include="..\src\Util\DateTime.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

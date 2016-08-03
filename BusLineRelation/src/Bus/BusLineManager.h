@@ -13,6 +13,7 @@
 #include "../Bus/Bus.h"
 #include "../Util/Configuration.h"
 #include "../Util/MileagesTools.h"
+#include "../Util/StringUtils.h"
 #include "../Report/LineReport.h"
 
 class BusLineManager {
