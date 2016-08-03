@@ -95,6 +95,7 @@
     <ClInclude Include="..\src\Relation\BusIndexInfo.h" />
     <ClInclude Include="..\src\Relation\BusSimilar.h" />
     <ClInclude Include="..\src\Relation\DirScanMatching.h" />
+    <ClInclude Include="..\src\Relation\LineFrontSimilar.h" />
     <ClInclude Include="..\src\Relation\LineSimilar.h" />
     <ClInclude Include="..\src\Relation\MatchingResult.h" />
     <ClInclude Include="..\src\Relation\RelationGenerator.h" />
@@ -111,6 +112,7 @@
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\MiniDump\DumpGeneration.cpp" />
+    <ClCompile Include="..\src\Relation\LineFrontSimilar.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

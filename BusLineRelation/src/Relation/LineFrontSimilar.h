@@ -17,7 +17,9 @@ public:
 
 protected:
 	void Calc(BusLineManager* busline_manager);
-	void Report();
+	void Report(BusLineManager* busline_manager);
+
+	std::map<int, std::set<int>> similar;
 
 };
 

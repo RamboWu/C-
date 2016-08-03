@@ -8,8 +8,7 @@ void LineFrontSimilar::CalcSimilar(BusLineManager* busline_manager) {
 }
 
 void LineFrontSimilar::Calc(BusLineManager* busline_manager) {
-	std::map<int, std::set<int>> similar;
-
+	similar.clear();
 	//求出similar数组,与线first相似的有set个
 	for (int i = 0; i < busline_manager->line_set.size(); i++) {
 		BusLine* line = busline_manager->line_set[i];
@@ -115,30 +114,21 @@ void LineFrontSimilar::Calc(BusLineManager* busline_manager) {
 		}
 	}
 
-	std::set<std::string> contain;
+}
 
+void LineFrontSimilar::Report(BusLineManager* busline_manager) {
+	//输出父子关系，Modified By WuPeiFeng
+	FILE* temp_out = fopen(Configuration::line_parent_report.c_str(), "w");
+	fprintf(temp_out, "LineCount:%d\n", busline_manager->line_set.size());
 	for (auto iter = similar.begin(); iter != similar.end(); iter++) {
-
 		int line_id = iter->first;
 		BusLine* line = busline_manager->GetLine(line_id);
-		if (contain.find(line->line_id) != contain.end()) continue;
-		std::vector<std::pair<std::string, std::string>> result;
-		result.push_back(std::pair<std::string, std::string>(line->line_id, line->line_name));
-
+		fprintf(temp_out, "%s: ", line->line_id.c_str());
 		for (auto iter1 = iter->second.begin(); iter1 != iter->second.end(); iter1++) {
-
 			BusLine* line1 = busline_manager->GetLine(*iter1);
-
-			if (similar.find(*iter1) != similar.end() && similar[*iter1].find(line_id) != similar[*iter1].end()) {
-				result.push_back(std::pair<std::string, std::string>(line1->line_id, line1->line_name));
-			}
+			fprintf(temp_out, "%s/ ", line1->line_id.c_str());
 		}
-
-		if (result.size() > 1) {
-			line_report->AddSimilarLine(result);
-			for (int i = 0; i < result.size(); i++)
-				contain.insert(result[i].first);
-		}
-
+		fprintf(temp_out, "\n");
 	}
+	fclose(temp_out);
 }

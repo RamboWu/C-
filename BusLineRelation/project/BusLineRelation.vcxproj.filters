@@ -34,6 +34,9 @@
     <Filter Include="头文件\MiniDump">
       <UniqueIdentifier>{7245896c-2e33-4cab-9023-145fe842e557}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\Relation">
+      <UniqueIdentifier>{676a38f5-2378-4b7e-914c-7e5340cb2113}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Bus\Bus.h">
@@ -99,6 +102,9 @@
     <ClInclude Include="..\src\Util\StringUtils.h">
       <Filter>头文件\Util</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\Relation\LineFrontSimilar.h">
+      <Filter>头文件\Relation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\MiniDump\DumpGeneration.cpp">
@@ -106,6 +112,9 @@
     </ClCompile>
     <ClCompile Include="..\src\main.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Relation\LineFrontSimilar.cpp">
+      <Filter>源文件\Relation</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
