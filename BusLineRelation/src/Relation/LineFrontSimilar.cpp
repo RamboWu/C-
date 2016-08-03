@@ -124,9 +124,13 @@ void LineFrontSimilar::Report(BusLineManager* busline_manager) {
 		int line_id = iter->first;
 		BusLine* line = busline_manager->GetLine(line_id);
 		fprintf(temp_out, "%s: ", line->line_id.c_str());
+		bool is_first = true;
 		for (auto iter1 = iter->second.begin(); iter1 != iter->second.end(); iter1++) {
+			if (!is_first)
+				fprintf(temp_out, ",");
+			is_first = false;
 			BusLine* line1 = busline_manager->GetLine(*iter1);
-			fprintf(temp_out, "%s,", line1->line_id.c_str());
+			fprintf(temp_out, "%s", line1->line_id.c_str());
 		}
 		fprintf(temp_out, "\n");
 	}
