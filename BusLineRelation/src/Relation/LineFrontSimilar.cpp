@@ -91,7 +91,7 @@ void LineFrontSimilar::Report(BusLineManager* busline_manager) {
 	for (auto iter = similar.begin(); iter != similar.end(); iter++) {
 		int line_id = iter->first;
 		BusLine* line = busline_manager->GetLine(line_id);
-		fprintf(temp_out, "%s: ", line->line_id.c_str());
+		fprintf(temp_out, "%s:", line->line_id.c_str());
 		bool is_first = true;
 		for (auto iter1 = iter->second.begin(); iter1 != iter->second.end(); iter1++) {
 			if (!is_first)
