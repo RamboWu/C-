@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="头文件\Bus">
+      <UniqueIdentifier>{f85106e4-73b8-42bf-a685-607f75905495}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Index">
+      <UniqueIdentifier>{e8577f36-b0e4-4339-979a-471fc9ae510e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Relation">
+      <UniqueIdentifier>{f3c49c6c-c39c-42ae-8b18-d7d623dd2f2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Util">
+      <UniqueIdentifier>{3714b325-61ad-418f-8eb9-21f3dea186ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Report">
+      <UniqueIdentifier>{2b676868-34c5-47f9-abed-fbd71af32a0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Judge">
+      <UniqueIdentifier>{6ab93460-f5b1-4597-8a32-827382a3950b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\MiniDump">
+      <UniqueIdentifier>{7245896c-2e33-4cab-9023-145fe842e557}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\Bus\Bus.h">
+      <Filter>头文件\Bus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Bus\BusLineIndexInfo.h">
+      <Filter>头文件\Bus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Bus\BusLineManager.h">
+      <Filter>头文件\Bus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Index\PlaneIndex.h">
+      <Filter>头文件\Index</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Judge\StationJudge.h">
+      <Filter>头文件\Judge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\MiniDump\DumpGeneration.h">
+      <Filter>头文件\MiniDump</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Relation\BusIndexInfo.h">
+      <Filter>头文件\Relation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Relation\BusSimilar.h">
+      <Filter>头文件\Relation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Relation\DirScanMatching.h">
+      <Filter>头文件\Relation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Relation\LineSimilar.h">
+      <Filter>头文件\Relation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Relation\MatchingResult.h">
+      <Filter>头文件\Relation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Relation\RelationGenerator.h">
+      <Filter>头文件\Relation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Relation\RoutesMatching.h">
+      <Filter>头文件\Relation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Relation\StationMatching.h">
+      <Filter>头文件\Relation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Report\LineReport.h">
+      <Filter>头文件\Report</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Report\BusReport.h">
+      <Filter>头文件\Report</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Report\RelationReport.h">
+      <Filter>头文件\Report</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Util\Configuration.h">
+      <Filter>头文件\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Util\DateTime.h">
+      <Filter>头文件\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Util\MileagesTools.h">
+      <Filter>头文件\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Util\StringUtils.h">
+      <Filter>头文件\Util</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\MiniDump\DumpGeneration.cpp">
+      <Filter>头文件\MiniDump</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

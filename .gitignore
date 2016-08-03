@@ -27,3 +27,12 @@
 *.exe
 *.out
 *.app
+BusLineRelation/bin/
+BusLineRelation/input/
+*.pdb
+BusLineRelation/project/Release/
+BusLineRelation/project/Debug/
+*.opensdf
+*.sdf
+*.user
+*.suo
