@@ -34,10 +34,11 @@ void LineFrontSimilar::Calc(BusLineManager* busline_manager) {
 
 				for (auto iter = unit_list->begin(); iter != unit_list->end(); iter++) {
 					GPSPoint* point = (*iter)->first;
-					std::list<std::pair<GPSPoint*, BusLineUnit*>*>* unit = busline_manager->line_index->GetPoint(*point, 2);
+					line_front_points.insert(*(point));
 
+					std::list<std::pair<GPSPoint*, BusLineUnit*>*>* unit = busline_manager->line_index->GetPoint(*point, 2);
 					for (auto iter1 = unit->begin(); iter1 != unit->end(); iter1++) {
-						line_front_points.insert(*((*iter1)->first));
+						
 						for (auto iter2 = (*iter1)->second->line_dir_sets.begin(); iter2 != (*iter1)->second->line_dir_sets.end(); iter2++) {
 							if (line_similar.find(iter2->first) == line_similar.end()) {
 								set<GPSPoint, GPSPointCompare> temp;
