@@ -17,7 +17,7 @@
 #include "RoutesMatching.h"
 #include "StationMatching.h"
 #include "MatchingResult.h"
-//#include "LineFrontSimilar.h"
+#include "LineFrontSimilar.h"
 
 class BusLineRelation{
 	std::string busId;
@@ -73,7 +73,7 @@ class RelationGenerator {
 	LineReport* line_report;
 	BusReport* bus_report;
 	LineSimilar* line_similar;
-	//LineFrontSimilar* line_front_similar;
+	LineFrontSimilar* line_front_similar;
 	BusSimilar* bus_similar;
 
 	std::string GetLineSetString(std::set<int> &lineSet) {
@@ -345,7 +345,7 @@ public:
 		bus_report = new BusReport;
 		line_manager = new BusLineManager;
 		line_similar = new LineSimilar(line_report);
-		//line_front_similar = new LineFrontSimilar();
+		line_front_similar = new LineFrontSimilar();
 		
 		if (Configuration::gen_answer == 1) {
 			station_judge = new StationJudge(line_manager);
@@ -364,7 +364,7 @@ public:
 		delete station_matching;
 		delete line_manager;
 		delete line_similar;
-		//delete line_front_similar;
+		delete line_front_similar;
 	}
 
 	void Init() {
@@ -375,7 +375,7 @@ public:
 		bus_similar = new BusSimilar(bus_report, line_manager);
 
 		line_similar->CalcSimilar(line_manager);
-		//line_front_similar->CalcSimilar(line_manager);
+		line_front_similar->CalcSimilar(line_manager);
 	}
 
 	void CalcRelation(const char* input) {

@@ -119,7 +119,7 @@ void LineFrontSimilar::Calc(BusLineManager* busline_manager) {
 
 void LineFrontSimilar::Report(BusLineManager* busline_manager) {
 	//输出父子关系，Modified By WuPeiFeng
-	FILE* temp_out = fopen(Configuration::line_parent_report.c_str(), "w");
+	FILE* temp_out = fopen(Configuration::line_front_similar_report.c_str(), "w");
 	for (auto iter = similar.begin(); iter != similar.end(); iter++) {
 		int line_id = iter->first;
 		BusLine* line = busline_manager->GetLine(line_id);
