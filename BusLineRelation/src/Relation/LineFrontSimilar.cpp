@@ -19,9 +19,15 @@ void LineFrontSimilar::Calc(BusLineManager* busline_manager) {
 		for (int k = 0; k < line->dir_num; k++) {
 
 			std::map<int, set<GPSPoint, GPSPointCompare>> line_similar;
-
+			set<GPSPoint, GPSPointCompare> line_front_points;
+			double now_front_total_length = 0;
 			//求得与当前dir_serial有相交的所有line
 			for (int j = 0; j < (int)line->routes[k].size() - 1; j++) {
+
+				double length = line->routes[k][j].GPSDistance(line->routes[k][j + 1]);
+				now_front_total_length += length;
+				if (now_front_total_length > 500)
+					break;
 
 				Segment segment = Segment(line->routes[k][j], line->routes[k][j + 1]);
 				std::list<std::pair<GPSPoint*, BusLineUnit*>*>* unit_list = busline_manager->line_index->GetSegment(segment, 1);
@@ -31,13 +37,14 @@ void LineFrontSimilar::Calc(BusLineManager* busline_manager) {
 					std::list<std::pair<GPSPoint*, BusLineUnit*>*>* unit = busline_manager->line_index->GetPoint(*point, 2);
 
 					for (auto iter1 = unit->begin(); iter1 != unit->end(); iter1++) {
-
+						line_front_points.insert(*((*iter1)->first));
 						for (auto iter2 = (*iter1)->second->line_dir_sets.begin(); iter2 != (*iter1)->second->line_dir_sets.end(); iter2++) {
 							if (line_similar.find(iter2->first) == line_similar.end()) {
 								set<GPSPoint, GPSPointCompare> temp;
 								line_similar[iter2->first] = temp;
 							}
 							line_similar[iter2->first].insert(*((*iter1)->first));
+							
 						}
 					}
 
@@ -58,9 +65,9 @@ void LineFrontSimilar::Calc(BusLineManager* busline_manager) {
 				similar_meta.first = line->serial * 2 + k;
 				similar_meta.second = iter->first;
 
-				similar_rate[similar_meta] = (double)size / busline_manager->line_point_in_index[iter->first]->size();
+				similar_rate[similar_meta] = (double)size / line_front_points.size();
 
-				if (size >= busline_manager->line_point_in_index[iter->first]->size() * 0.98) {
+				if (size >= line_front_points.size() * 0.98) {
 					if (temp_similar[k].find(line_serial) == temp_similar[k].end()) {
 						temp_similar[k][line_serial] = 0;
 					}
@@ -68,7 +75,7 @@ void LineFrontSimilar::Calc(BusLineManager* busline_manager) {
 				}
 			}
 		}
-
+		
 		if (line->dir_num == 1) {
 			std::vector<int> temp;
 			for (auto iter = temp_similar[0].begin(); iter != temp_similar[0].end(); iter++) {
