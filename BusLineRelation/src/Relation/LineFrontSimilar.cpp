@@ -2,7 +2,7 @@
 #include "../Bus/BusLineManager.h"
 
 
-const int LineFrontSimilar::LINE_FRONT_LENGTH = 2000;
+const int LineFrontSimilar::LINE_FRONT_LENGTH = 1000;
 
 void LineFrontSimilar::CalcSimilar(BusLineManager* busline_manager) {
 
@@ -22,22 +22,16 @@ void LineFrontSimilar::Calc(BusLineManager* busline_manager) {
 		for (int k = 0; k < line->dir_num; k++) {
 
 			std::map<int, set<GPSPoint, GPSPointCompare>> line_similar;
-			set<GPSPoint, GPSPointCompare> line_front_points;
+			set<GPSPoint, GPSPointCompare> line_front_points = getLineFrontPointsInIndex(busline_manager, line->serial * 2 + k);
 			double now_front_total_length = 0;
 			//求得与当前dir_serial有相交的所有line
 			for (int j = 0; j < (int)line->routes[k].size() - 1; j++) {
-
-				double length = line->routes[k][j].GPSDistance(line->routes[k][j + 1]);
-				now_front_total_length += length;
-				if (now_front_total_length > LINE_FRONT_LENGTH)
-					break;
 
 				Segment segment = Segment(line->routes[k][j], line->routes[k][j + 1]);
 				std::list<std::pair<GPSPoint*, BusLineUnit*>*>* unit_list = busline_manager->line_index->GetSegment(segment, 1);
 
 				for (auto iter = unit_list->begin(); iter != unit_list->end(); iter++) {
 					GPSPoint* point = (*iter)->first;
-					line_front_points.insert(*(point));
 
 					std::list<std::pair<GPSPoint*, BusLineUnit*>*>* unit = busline_manager->line_index->GetPoint(*point, 2);
 					for (auto iter1 = unit->begin(); iter1 != unit->end(); iter1++) {
@@ -51,8 +45,6 @@ void LineFrontSimilar::Calc(BusLineManager* busline_manager) {
 							
 						}
 					}
-
-
 				}
 
 				delete unit_list;
@@ -70,7 +62,7 @@ void LineFrontSimilar::Calc(BusLineManager* busline_manager) {
 					set<GPSPoint, GPSPointCompare> target_line_front_point = getLineFrontPointsInIndex(busline_manager, iter->first);
 					int inter_count = getIntersectionCount(line_front_points, target_line_front_point);
 					
-					if ((inter_count >= line_front_points.size()*0.95) && isStartNear(iter->first, line->serial * 2 + k, busline_manager)) {
+					if ((inter_count >= line_front_points.size()*0.85) && isStartNear(iter->first, line->serial * 2 + k, busline_manager)) {
 						if (similar.find(line->serial) == similar.end()) {
 							similar[line->serial] = std::set<int>();
 						}
@@ -115,22 +107,30 @@ set<GPSPoint, GPSPointCompare> LineFrontSimilar::getLineFrontPointsInIndex(BusLi
 	double now_front_total_length = 0;
 	//求得与当前dir_serial有相交的所有line
 	for (int j = 0; j < (int)line->routes[dir].size() - 1; j++) {
-
-		double length = line->routes[dir][j].GPSDistance(line->routes[dir][j + 1]);
-		now_front_total_length += length;
-		if (now_front_total_length > LINE_FRONT_LENGTH)
-			break;
+		double piece_length = line->routes[dir][j].GPSDistance(line->routes[dir][j + 1]);
+		double left_length;
+		if (now_front_total_length + piece_length > LINE_FRONT_LENGTH) {
+			left_length = LINE_FRONT_LENGTH - now_front_total_length;
+		}
+		else {
+			left_length = piece_length;
+		}
+		now_front_total_length += piece_length;
 
 		Segment segment = Segment(line->routes[dir][j], line->routes[dir][j + 1]);
 		std::list<std::pair<GPSPoint*, BusLineUnit*>*>* unit_list = busline_manager->line_index->GetSegment(segment, 1);
 
 		for (auto iter = unit_list->begin(); iter != unit_list->end(); iter++) {
 			GPSPoint* point = (*iter)->first;
-			line_front_points.insert(*(point));
+			double to_start_distance = line->routes[dir][j].GPSDistance(*(point));
+			if (to_start_distance < left_length)
+				line_front_points.insert(*(point));
 		}
 
 		delete unit_list;
-
+		if (now_front_total_length > LINE_FRONT_LENGTH) {
+			break;
+		}
 	}
 
 	return line_front_points;
