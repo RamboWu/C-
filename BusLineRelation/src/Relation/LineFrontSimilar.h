@@ -19,6 +19,7 @@ public:
 
 protected:
 	set<GPSPoint, GPSPointCompare> getLineFrontPointsInIndex(BusLineManager* busline_manager, int dir_serial);
+	bool isStartNear(int dir_serial1, int dir_serial2, BusLineManager* busline_manager);
 
 	int getIntersectionCount(set<GPSPoint, GPSPointCompare>& a, set<GPSPoint, GPSPointCompare>& b);
 	void Calc(BusLineManager* busline_manager);

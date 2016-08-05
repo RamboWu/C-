@@ -2,7 +2,7 @@
 #include "../Bus/BusLineManager.h"
 
 
-const int LineFrontSimilar::LINE_FRONT_LENGTH = 1000;
+const int LineFrontSimilar::LINE_FRONT_LENGTH = 2000;
 
 void LineFrontSimilar::CalcSimilar(BusLineManager* busline_manager) {
 
@@ -70,7 +70,7 @@ void LineFrontSimilar::Calc(BusLineManager* busline_manager) {
 					set<GPSPoint, GPSPointCompare> target_line_front_point = getLineFrontPointsInIndex(busline_manager, iter->first);
 					int inter_count = getIntersectionCount(line_front_points, target_line_front_point);
 					
-					if (inter_count >= line_front_points.size()*0.95) {
+					if ((inter_count >= line_front_points.size()*0.95) && isStartNear(iter->first, line->serial * 2 + k, busline_manager)) {
 						if (similar.find(line->serial) == similar.end()) {
 							similar[line->serial] = std::set<int>();
 						}
@@ -144,4 +144,25 @@ int LineFrontSimilar::getIntersectionCount(set<GPSPoint, GPSPointCompare>& a, se
 		}
 	}
 	return count;
+}
+
+bool LineFrontSimilar::isStartNear(int dir_serial1, int dir_serial2, BusLineManager* busline_manager) {
+	int dir1 = dir_serial1 % 2;
+	int serial1 = dir_serial1 >> 1;
+	BusLine* line1 = busline_manager->GetLine(serial1);
+
+	int dir2 = dir_serial2 % 2;
+	int serial2 = dir_serial2 >> 1;
+
+	BusLine* line2 = busline_manager->GetLine(serial2);
+
+	GPSPoint point1 = line1->stations[dir1][0].point;
+	GPSPoint point2 = line2->stations[dir2][0].point;
+
+	if (point1.GPSDistance(point2) < 200)
+		return true;
+	else
+		return false;
+
+
 }
